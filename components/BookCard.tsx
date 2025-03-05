@@ -60,7 +60,7 @@ export default function BookCard({ book, showPageTracker = false }: {
 
             {book.endDate && (
               <div className="bg-neutral-800/50 p-2 rounded border border-neutral-700">
-                <p className="text-neutral-500 uppercase tracking-wider mb-1 text-[10px]">Completed</p>
+                <p className="text-neutral-500 uppercase tracking-wider mb-1 text-[10px]">Due</p>
                 <p className="text-neutral-300">
                   {new Date(book.endDate).toLocaleDateString()}
                 </p>
@@ -108,9 +108,6 @@ export default function BookCard({ book, showPageTracker = false }: {
               )}
             </div>
           )}
-
-          {/* Decorative Element */}
-          <div className="h-0.5 w-16 bg-neutral-600 mx-auto mt-4"></div>
         </div>
       </div>
     </div>

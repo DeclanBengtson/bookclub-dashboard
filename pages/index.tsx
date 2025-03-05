@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
 import { Book } from '../types/Book';
 
 // Dynamically import BookCard to ensure client-side rendering
