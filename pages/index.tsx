@@ -20,7 +20,7 @@ export default function Home({ currentBook }: HomeProps) {
           {/* Minimalist Title */}
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-extralight tracking-tight text-neutral-100 mb-2">
-              Book Club
+              Book Clurb
             </h1>
             <div className="h-0.5 w-32 bg-neutral-600 mx-auto mb-4"></div>
             <p className="text-neutral-400 text-lg tracking-wide uppercase">
