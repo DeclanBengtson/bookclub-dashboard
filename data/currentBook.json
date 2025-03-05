@@ -3,8 +3,10 @@
     "title": "Foundation",
     "author": "Isaac Asimov",
     "coverImageUrl": "/images/Foundation.jpg",
-    "startDate": "2024-03-05",
+    "startDate": "2025-02-26",
+    "endDate": "2025-03-30",
     "status": "CURRENT",
     "synopsis": "A groundbreaking science fiction novel about the fall of a galactic empire and the attempt to preserve human knowledge.",
-    "notes": "First book in the legendary Foundation series"
+    "notes": "First book in the legendary Foundation series",
+    "totalPages": "296"
   }

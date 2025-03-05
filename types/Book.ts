@@ -5,7 +5,9 @@ export interface Book {
     coverImageUrl: string;
     startDate: string;
     endDate?: string;
+    finishDate?: string;
     status: 'CURRENT' | 'COMPLETED' | 'UPCOMING';
     synopsis?: string;
     notes?: string;
+    totalPages?: number;
   }
