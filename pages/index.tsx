@@ -1,5 +1,3 @@
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
 import BookCard from '../components/BookCard';
 import { getCurrentBook } from '../lib/bookService';
 import { Book } from '../types/Book';
