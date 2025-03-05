@@ -5,34 +5,60 @@ export default function BookCard({ book, showPageTracker = false }: {
   book: Book, 
   showPageTracker?: boolean 
 }) {
-  const [currentPage, setCurrentPage] = useState(0);
-  const totalPages = book.totalPages || 0;
+  const [currentPage, setCurrentPage] = useState<string>('');
+  const totalPages = book.totalPages ? parseInt(String(book.totalPages)) : 0;
   const startDate = new Date(book.startDate);
-  const finishDate = book.finishDate ? new Date(book.finishDate) : new Date(startDate.getTime() + 30 * 24 * 60 * 60 * 1000); // Default 30 days
-
-  const calculatePagesPerDay = () => {
-    const remainingPages = totalPages - currentPage;
+  const endDate = book.endDate ? new Date(book.endDate) : null;
+  
+  const calculatePagesPerDay = (): number => {
+    if (!endDate) return 0;
+    
+    const currentPageNum = currentPage === '' ? 0 : parseInt(currentPage);
+    const remainingPages = totalPages - currentPageNum;
     const today = new Date();
-    const daysRemaining = Math.max(1, Math.ceil((finishDate.getTime() - today.getTime()) / (24 * 60 * 60 * 1000)));
+    const daysRemaining = Math.max(1, Math.ceil((endDate.getTime() - today.getTime()) / (24 * 60 * 60 * 1000)));
     return Math.ceil(remainingPages / daysRemaining);
+  };
+
+  const handlePageChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = e.target.value;
+    
+    // Allow empty string or valid numbers
+    if (value === '' || /^\d+$/.test(value)) {
+      const numValue = value === '' ? 0 : parseInt(value);
+      
+      // Only enforce max if there's a value
+      if (value !== '' && numValue > totalPages) {
+        setCurrentPage(totalPages.toString());
+      } else {
+        setCurrentPage(value);
+      }
+    }
+  };
+
+  const getCurrentPageNum = (): number => {
+    return currentPage === '' ? 0 : parseInt(currentPage);
   };
 
   return (
     <div className="w-full max-w-4xl mx-auto bg-neutral-800/30 backdrop-blur-sm rounded-xl shadow-xl border border-neutral-700 overflow-hidden">
-      <div className="flex">
-        {/* Book Cover */}
-        <div className="w-1/3 relative">
-          <img
-            src={book.coverImageUrl}
-            alt={book.title}
-            className="w-full h-full object-cover grayscale-[20%] opacity-90 transition duration-300 hover:grayscale-0 hover:opacity-100"
-          />
+      {/* Responsive layout - vertical on small screens, horizontal on medium+ */}
+      <div className="flex flex-col md:flex-row">
+        {/* Book Cover - Better mobile sizing */}
+        <div className="w-full md:w-2/5 lg:w-1/3 p-4 flex justify-center md:justify-start">
+          <div className="relative h-80 md:h-auto w-48 md:w-full">
+            <img
+              src={book.coverImageUrl}
+              alt={book.title}
+              className="h-full w-full object-contain md:object-cover rounded-md shadow-md grayscale-[20%] opacity-90 transition duration-300 hover:grayscale-0 hover:opacity-100"
+            />
+          </div>
         </div>
 
         {/* Book Details */}
-        <div className="w-2/3 p-6 space-y-4">
-          <div className="text-left">
-            <h2 className="text-3xl font-extralight tracking-tight text-neutral-100 mb-1">
+        <div className="w-full md:w-3/5 lg:w-2/3 p-4 md:p-6 space-y-4">
+          <div className="text-center md:text-left">
+            <h2 className="text-2xl md:text-3xl font-extralight tracking-tight text-neutral-100 mb-1">
               {book.title}
             </h2>
             <p className="text-sm text-neutral-400 uppercase tracking-widest">
@@ -42,27 +68,27 @@ export default function BookCard({ book, showPageTracker = false }: {
 
           {/* Synopsis */}
           {book.synopsis && (
-            <div className="bg-neutral-800/50 p-4 rounded-lg border border-neutral-700">
-              <p className="text-sm text-neutral-400 leading-relaxed">
+            <div className="bg-neutral-800/50 p-3 md:p-4 rounded-lg border border-neutral-700">
+              <p className="text-xs md:text-sm text-neutral-400 leading-relaxed">
                 {book.synopsis}
               </p>
             </div>
           )}
 
-          {/* Metadata Grid */}
+          {/* Metadata Grid - Better on small screens */}
           <div className="grid grid-cols-3 gap-2 text-xs text-center">
             <div className="bg-neutral-800/50 p-2 rounded border border-neutral-700">
               <p className="text-neutral-500 uppercase tracking-wider mb-1 text-[10px]">Started</p>
               <p className="text-neutral-300">
-                {new Date(book.startDate).toLocaleDateString()}
+                {startDate.toLocaleDateString()}
               </p>
             </div>
 
-            {book.endDate && (
+            {endDate && (
               <div className="bg-neutral-800/50 p-2 rounded border border-neutral-700">
                 <p className="text-neutral-500 uppercase tracking-wider mb-1 text-[10px]">Due</p>
                 <p className="text-neutral-300">
-                  {new Date(book.endDate).toLocaleDateString()}
+                  {endDate.toLocaleDateString()}
                 </p>
               </div>
             )}
@@ -75,23 +101,26 @@ export default function BookCard({ book, showPageTracker = false }: {
             </div>
           </div>
 
-          {/* Page Tracker */}
-          {showPageTracker && book.totalPages && (
+          {/* Page Tracker - Fixed input issues */}
+          {showPageTracker && totalPages > 0 && (
             <div className="space-y-2">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-center md:justify-start gap-2">
                 <label className="text-neutral-400 text-sm">Current Page:</label>
-                <input
-                  type="number"
-                  value={currentPage}
-                  onChange={(e) => setCurrentPage(Number(e.target.value))}
-                  max={totalPages}
-                  min={0}
-                  className="bg-neutral-700 text-neutral-100 p-1 rounded w-20 text-sm"
-                />
-                <span className="text-neutral-500 text-sm">/ {totalPages}</span>
+                <div className="flex items-center bg-neutral-700 rounded overflow-hidden">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={currentPage}
+                    onChange={handlePageChange}
+                    placeholder="0"
+                    className="bg-neutral-700 text-neutral-100 p-1 w-12 text-center text-sm"
+                  />
+                  <span className="text-neutral-500 text-sm px-2">/ {totalPages}</span>
+                </div>
               </div>
-              {currentPage > 0 && currentPage < totalPages && (
-                <div className="bg-neutral-800/50 p-2 rounded border border-neutral-700">
+              
+              {getCurrentPageNum() > 0 && getCurrentPageNum() < totalPages && endDate && (
+                <div className="bg-neutral-800/50 p-3 rounded border border-neutral-700 text-center md:text-left">
                   <p className="text-neutral-400 text-xs">
                     Pages per day to finish: 
                     <span className="text-neutral-100 font-bold ml-2">
@@ -99,9 +128,9 @@ export default function BookCard({ book, showPageTracker = false }: {
                     </span>
                   </p>
                   <p className="text-neutral-400 text-xs mt-1">
-                    Planned Finish Date:
+                    Finish by:
                     <span className="text-neutral-100 font-bold ml-2">
-                      {finishDate.toLocaleDateString()}
+                      {endDate.toLocaleDateString()}
                     </span>
                   </p>
                 </div>

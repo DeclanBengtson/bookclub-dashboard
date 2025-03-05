@@ -29,7 +29,7 @@ export default function Home({ currentBook, bookHistory }: HomeProps) {
         <div className="w-full max-w-5xl space-y-8">
           <div className="text-center">
             <h1 className="text-3xl md:text-4xl font-extralight tracking-tight text-neutral-100 mb-2">
-                  Book Club
+                  Book Clurb
                 </h1>
                 <div className="h-0.5 w-24 bg-neutral-600 mx-auto mb-3"></div>
                 </div>
