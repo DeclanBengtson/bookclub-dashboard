@@ -33,7 +33,7 @@ export async function getVotingSuggestions(): Promise<BookSuggestion[]> {
     const data = await fs.readFile(VOTING_PATH, 'utf8');
     return JSON.parse(data);
   } catch (error) {
-    // If voting.json doesn't exist yet, return an empty array
+    console.error('Error reading voting suggestions:', error); // Log the error
     return [];
   }
 }

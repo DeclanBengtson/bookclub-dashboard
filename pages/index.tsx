@@ -1,5 +1,5 @@
 // pages/index.tsx
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Book } from '../types/Book';
 import Link from 'next/link';
@@ -11,7 +11,6 @@ interface HomeProps {
 }
 
 export default function Home({ currentBook }: HomeProps) {
-  const [activeTab, setActiveTab] = useState<'current'>('current'); // Simplified to single tab
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

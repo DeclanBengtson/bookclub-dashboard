@@ -1,5 +1,6 @@
 import { Book } from '../types/Book';
 import { useState } from 'react';
+import Image from 'next/image'; // Import next/image
 
 export default function BookCard({ book, showPageTracker = false }: { 
   book: Book, 
@@ -47,11 +48,16 @@ export default function BookCard({ book, showPageTracker = false }: {
         {/* Book Cover - Better mobile sizing */}
         <div className="w-full md:w-2/5 lg:w-1/3 p-4 flex justify-center md:justify-start">
           <div className="relative h-80 md:h-auto w-48 md:w-full">
-            <img
-              src={book.coverImageUrl}
-              alt={book.title}
-              className="h-full w-full object-contain md:object-cover rounded-md shadow-md grayscale-[20%] opacity-90 transition duration-300 hover:grayscale-0 hover:opacity-100"
-            />
+            {book.coverImageUrl && (
+              <Image
+                src={book.coverImageUrl}
+                alt={book.title}
+                fill // Uses parent container dimensions with object-fit
+                sizes="(max-width: 768px) 100vw, 33vw" // Responsive sizes
+                className="object-contain md:object-cover rounded-md shadow-md grayscale-[20%] opacity-90 transition duration-300 hover:grayscale-0 hover:opacity-100"
+                style={{ objectFit: 'contain' }} // Ensure consistent behavior
+              />
+            )}
           </div>
         </div>
 

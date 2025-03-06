@@ -5,6 +5,14 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { GetStaticProps } from 'next';
 
+// Define Open Library API response type
+interface OpenLibraryDoc {
+  key: string;
+  title: string;
+  author_name?: string[];
+  cover_i?: number; // Optional cover ID
+}
+
 interface VotingProps {
   initialSuggestions: BookSuggestion[];
 }
@@ -23,7 +31,7 @@ export default function Voting({ initialSuggestions }: VotingProps) {
     try {
       const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`);
       const data = await res.json();
-      const results = data.docs.slice(0, 5).map((doc: any) => ({
+      const results = data.docs.slice(0, 5).map((doc: OpenLibraryDoc) => ({
         id: doc.key.split('/')[2], // Extract Open Library ID
         title: doc.title,
         author: doc.author_name?.[0] || 'Unknown',
