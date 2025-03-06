@@ -2,17 +2,16 @@
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Book } from '../types/Book';
-import Link from 'next/link'; // Add this import
+import Link from 'next/link';
 
 const BookCard = dynamic(() => import('../components/BookCard'), { ssr: false });
 
 interface HomeProps {
   currentBook: Book;
-  bookHistory: Book[];
 }
 
-export default function Home({ currentBook, bookHistory }: HomeProps) {
-  const [activeTab, setActiveTab] = useState<'current' | 'history' | 'voting'>('current');
+export default function Home({ currentBook }: HomeProps) {
+  const [activeTab, setActiveTab] = useState<'current'>('current'); // Simplified to single tab
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -38,33 +37,21 @@ export default function Home({ currentBook, bookHistory }: HomeProps) {
           {/* Tabs */}
           <div className="flex justify-center mb-6">
             <div className="bg-neutral-800 rounded-full p-1 flex space-x-2">
-              <button
-                onClick={() => setActiveTab('current')}
-                className={`px-4 py-2 rounded-full text-sm transition-colors duration-300 ${
-                  activeTab === 'current'
-                    ? 'bg-neutral-700 text-neutral-100'
-                    : 'text-neutral-400 hover:bg-neutral-700/50'
-                }`}
+              <Link
+                href="/"
+                className="px-4 py-2 rounded-full text-sm transition-colors duration-300 bg-neutral-700 text-neutral-100"
               >
                 Current Reading
-              </button>
-              <button
-                onClick={() => setActiveTab('history')}
-                className={`px-4 py-2 rounded-full text-sm transition-colors duration-300 ${
-                  activeTab === 'history'
-                    ? 'bg-neutral-700 text-neutral-100'
-                    : 'text-neutral-400 hover:bg-neutral-700/50'
-                }`}
+              </Link>
+              <Link
+                href="/history"
+                className="px-4 py-2 rounded-full text-sm transition-colors duration-300 text-neutral-400 hover:bg-neutral-700/50"
               >
                 Book History
-              </button>
+              </Link>
               <Link
                 href="/voting"
-                className={`px-4 py-2 rounded-full text-sm transition-colors duration-300 ${
-                  activeTab === 'voting'
-                    ? 'bg-neutral-700 text-neutral-100'
-                    : 'text-neutral-400 hover:bg-neutral-700/50'
-                }`}
+                className="px-4 py-2 rounded-full text-sm transition-colors duration-300 text-neutral-400 hover:bg-neutral-700/50"
               >
                 Voting
               </Link>
@@ -72,19 +59,9 @@ export default function Home({ currentBook, bookHistory }: HomeProps) {
           </div>
 
           {/* Content */}
-          {activeTab === 'current' ? (
-            <div className="space-y-6">
-              <BookCard book={currentBook} showPageTracker={true} />
-            </div>
-          ) : activeTab === 'history' ? (
-            <div className="space-y-6">
-              <div className="space-y-4">
-                {bookHistory.map((book) => (
-                  <BookCard key={book.id} book={book} />
-                ))}
-              </div>
-            </div>
-          ) : null}
+          <div className="space-y-6">
+            <BookCard book={currentBook} showPageTracker={true} />
+          </div>
 
           {/* Additional Context */}
           <div className="text-center max-w-xl mx-auto">
@@ -99,8 +76,7 @@ export default function Home({ currentBook, bookHistory }: HomeProps) {
 }
 
 export async function getStaticProps() {
-  const { getCurrentBook, getBookHistory } = await import('../lib/bookService');
+  const { getCurrentBook } = await import('../lib/bookService');
   const currentBook = await getCurrentBook();
-  const bookHistory = await getBookHistory();
-  return { props: { currentBook, bookHistory } };
+  return { props: { currentBook }, revalidate: 10 };
 }
