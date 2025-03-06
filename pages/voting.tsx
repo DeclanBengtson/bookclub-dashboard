@@ -72,7 +72,7 @@ export default function Voting({ initialSuggestions }: VotingProps) {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-950 text-neutral-100 font-sans antialiased">
+    <div className="flex flex-col min-h-screen bg-neutral-900 from-neutral-900 via-neutral-800 to-neutral-950 text-neutral-100 font-sans antialiased">
       <Head>
         <title>Book Clurb - Voting</title>
       </Head>
