@@ -41,6 +41,13 @@ export default function BookCard({ book, showPageTracker = false }: {
     return currentPage === '' ? 0 : parseInt(currentPage);
   };
 
+  // Calculate progress percentage for the progress bar
+  const calculateProgress = (): number => {
+    if (totalPages === 0) return 0;
+    const currentPageNum = getCurrentPageNum();
+    return Math.round((currentPageNum / totalPages) * 100);
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-stone-200 overflow-hidden">
       {/* Responsive layout - vertical on small screens, horizontal on medium+ */}
@@ -109,7 +116,7 @@ export default function BookCard({ book, showPageTracker = false }: {
 
           {/* Page Tracker - Fixed input issues */}
           {showPageTracker && totalPages > 0 && (
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex items-center justify-center md:justify-start gap-2">
                 <label className="text-stone-600 text-sm">Current Page:</label>
                 <div className="flex items-center bg-stone-100 rounded overflow-hidden border border-stone-200">
@@ -125,7 +132,22 @@ export default function BookCard({ book, showPageTracker = false }: {
                 </div>
               </div>
               
-              {getCurrentPageNum() > 0 && getCurrentPageNum() < totalPages && endDate && (
+              {/* Progress Bar */}
+              <div className="space-y-1">
+                <div className="flex justify-between items-center text-xs text-stone-500">
+                  <span>Progress</span>
+                  <span>{calculateProgress()}%</span>
+                </div>
+                <div className="w-full h-2 bg-stone-100 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-amber-500 rounded-full transition-all duration-300"
+                    style={{ width: `${calculateProgress()}%` }}
+                  ></div>
+                </div>
+              </div>
+              
+              {/* Always show the pages per day and finish by information when there's an end date */}
+              {endDate && (
                 <div className="bg-stone-50 p-3 rounded border border-stone-200 text-center md:text-left">
                   <p className="text-stone-600 text-xs">
                     Pages per day to finish: 
