@@ -1,6 +1,6 @@
 import { Book } from '../types/Book';
 import { useState } from 'react';
-import Image from 'next/image'; // Import next/image
+import Image from 'next/image';
 
 export default function BookCard({ book, showPageTracker = false }: { 
   book: Book, 
@@ -42,7 +42,7 @@ export default function BookCard({ book, showPageTracker = false }: {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-neutral-800/30 backdrop-blur-sm rounded-xl shadow-xl border border-neutral-700 overflow-hidden">
+    <div className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-stone-200 overflow-hidden">
       {/* Responsive layout - vertical on small screens, horizontal on medium+ */}
       <div className="flex flex-col md:flex-row">
         {/* Book Cover - Better mobile sizing */}
@@ -54,7 +54,7 @@ export default function BookCard({ book, showPageTracker = false }: {
                 alt={book.title}
                 fill // Uses parent container dimensions with object-fit
                 sizes="(max-width: 768px) 100vw, 33vw" // Responsive sizes
-                className="object-contain md:object-cover rounded-md shadow-md grayscale-[20%] opacity-90 transition duration-300 hover:grayscale-0 hover:opacity-100"
+                className="object-contain md:object-cover rounded-md shadow-md opacity-95 transition duration-300 hover:opacity-100"
                 style={{ objectFit: 'contain' }} // Ensure consistent behavior
               />
             )}
@@ -64,18 +64,18 @@ export default function BookCard({ book, showPageTracker = false }: {
         {/* Book Details */}
         <div className="w-full md:w-3/5 lg:w-2/3 p-4 md:p-6 space-y-4">
           <div className="text-center md:text-left">
-            <h2 className="text-2xl md:text-3xl font-extralight tracking-tight text-neutral-100 mb-1">
+            <h2 className="text-2xl md:text-3xl font-extralight tracking-tight text-stone-800 mb-1">
               {book.title}
             </h2>
-            <p className="text-sm text-neutral-400 uppercase tracking-widest">
+            <p className="text-sm text-stone-500 uppercase tracking-widest">
               {book.author}
             </p>
           </div>
 
           {/* Synopsis */}
           {book.synopsis && (
-            <div className="bg-neutral-800/50 p-3 md:p-4 rounded-lg border border-neutral-700">
-              <p className="text-xs md:text-sm text-neutral-400 leading-relaxed">
+            <div className="bg-stone-50 p-3 md:p-4 rounded-lg border border-stone-200">
+              <p className="text-xs md:text-sm text-stone-600 leading-relaxed">
                 {book.synopsis}
               </p>
             </div>
@@ -83,25 +83,25 @@ export default function BookCard({ book, showPageTracker = false }: {
 
           {/* Metadata Grid - Better on small screens */}
           <div className="grid grid-cols-3 gap-2 text-xs text-center">
-            <div className="bg-neutral-800/50 p-2 rounded border border-neutral-700">
-              <p className="text-neutral-500 uppercase tracking-wider mb-1 text-[10px]">Started</p>
-              <p className="text-neutral-300">
+            <div className="bg-stone-50 p-2 rounded border border-stone-200">
+              <p className="text-stone-500 uppercase tracking-wider mb-1 text-[10px]">Started</p>
+              <p className="text-stone-700">
                 {startDate.toLocaleDateString()}
               </p>
             </div>
 
             {endDate && (
-              <div className="bg-neutral-800/50 p-2 rounded border border-neutral-700">
-                <p className="text-neutral-500 uppercase tracking-wider mb-1 text-[10px]">Due</p>
-                <p className="text-neutral-300">
+              <div className="bg-stone-50 p-2 rounded border border-stone-200">
+                <p className="text-stone-500 uppercase tracking-wider mb-1 text-[10px]">Due</p>
+                <p className="text-stone-700">
                   {endDate.toLocaleDateString()}
                 </p>
               </div>
             )}
 
-            <div className="bg-neutral-800/50 p-2 rounded border border-neutral-700">
-              <p className="text-neutral-500 uppercase tracking-wider mb-1 text-[10px]">Status</p>
-              <p className="text-neutral-300 capitalize">
+            <div className="bg-stone-50 p-2 rounded border border-stone-200">
+              <p className="text-stone-500 uppercase tracking-wider mb-1 text-[10px]">Status</p>
+              <p className="text-stone-700 capitalize">
                 {book.status.toLowerCase()}
               </p>
             </div>
@@ -111,31 +111,31 @@ export default function BookCard({ book, showPageTracker = false }: {
           {showPageTracker && totalPages > 0 && (
             <div className="space-y-2">
               <div className="flex items-center justify-center md:justify-start gap-2">
-                <label className="text-neutral-400 text-sm">Current Page:</label>
-                <div className="flex items-center bg-neutral-700 rounded overflow-hidden">
+                <label className="text-stone-600 text-sm">Current Page:</label>
+                <div className="flex items-center bg-stone-100 rounded overflow-hidden border border-stone-200">
                   <input
                     type="text"
                     inputMode="numeric"
                     value={currentPage}
                     onChange={handlePageChange}
                     placeholder="0"
-                    className="bg-neutral-700 text-neutral-100 p-1 w-12 text-center text-sm"
+                    className="bg-stone-100 text-stone-800 p-1 w-12 text-center text-sm focus:outline-none focus:ring-1 focus:ring-amber-500/50"
                   />
-                  <span className="text-neutral-500 text-sm px-2">/ {totalPages}</span>
+                  <span className="text-stone-500 text-sm px-2">/ {totalPages}</span>
                 </div>
               </div>
               
               {getCurrentPageNum() > 0 && getCurrentPageNum() < totalPages && endDate && (
-                <div className="bg-neutral-800/50 p-3 rounded border border-neutral-700 text-center md:text-left">
-                  <p className="text-neutral-400 text-xs">
+                <div className="bg-stone-50 p-3 rounded border border-stone-200 text-center md:text-left">
+                  <p className="text-stone-600 text-xs">
                     Pages per day to finish: 
-                    <span className="text-neutral-100 font-bold ml-2">
+                    <span className="text-amber-800 font-bold ml-2">
                       {calculatePagesPerDay()}
                     </span>
                   </p>
-                  <p className="text-neutral-400 text-xs mt-1">
+                  <p className="text-stone-600 text-xs mt-1">
                     Finish by:
-                    <span className="text-neutral-100 font-bold ml-2">
+                    <span className="text-amber-800 font-bold ml-2">
                       {endDate.toLocaleDateString()}
                     </span>
                   </p>
