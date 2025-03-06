@@ -11,3 +11,7 @@ export interface Book {
     notes?: string;
     totalPages?: number;
   }
+
+  export interface BookSuggestion extends Book {
+    votes: number;
+  }

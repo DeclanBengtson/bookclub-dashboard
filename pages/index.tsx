@@ -1,8 +1,9 @@
+// pages/index.tsx
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Book } from '../types/Book';
+import Link from 'next/link'; // Add this import
 
-// Dynamically import BookCard to ensure client-side rendering
 const BookCard = dynamic(() => import('../components/BookCard'), { ssr: false });
 
 interface HomeProps {
@@ -11,7 +12,7 @@ interface HomeProps {
 }
 
 export default function Home({ currentBook, bookHistory }: HomeProps) {
-  const [activeTab, setActiveTab] = useState<'current' | 'history'>('current');
+  const [activeTab, setActiveTab] = useState<'current' | 'history' | 'voting'>('current');
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -29,18 +30,19 @@ export default function Home({ currentBook, bookHistory }: HomeProps) {
         <div className="w-full max-w-5xl space-y-8">
           <div className="text-center">
             <h1 className="text-3xl md:text-4xl font-extralight tracking-tight text-neutral-100 mb-2">
-                  Book Clurb
-                </h1>
-                <div className="h-0.5 w-24 bg-neutral-600 mx-auto mb-3"></div>
-                </div>
+              Book Clurb
+            </h1>
+            <div className="h-0.5 w-24 bg-neutral-600 mx-auto mb-3"></div>
+          </div>
+
           {/* Tabs */}
           <div className="flex justify-center mb-6">
             <div className="bg-neutral-800 rounded-full p-1 flex space-x-2">
               <button
                 onClick={() => setActiveTab('current')}
                 className={`px-4 py-2 rounded-full text-sm transition-colors duration-300 ${
-                  activeTab === 'current' 
-                    ? 'bg-neutral-700 text-neutral-100' 
+                  activeTab === 'current'
+                    ? 'bg-neutral-700 text-neutral-100'
                     : 'text-neutral-400 hover:bg-neutral-700/50'
                 }`}
               >
@@ -49,24 +51,32 @@ export default function Home({ currentBook, bookHistory }: HomeProps) {
               <button
                 onClick={() => setActiveTab('history')}
                 className={`px-4 py-2 rounded-full text-sm transition-colors duration-300 ${
-                  activeTab === 'history' 
-                    ? 'bg-neutral-700 text-neutral-100' 
+                  activeTab === 'history'
+                    ? 'bg-neutral-700 text-neutral-100'
                     : 'text-neutral-400 hover:bg-neutral-700/50'
                 }`}
               >
                 Book History
               </button>
+              <Link
+                href="/voting"
+                className={`px-4 py-2 rounded-full text-sm transition-colors duration-300 ${
+                  activeTab === 'voting'
+                    ? 'bg-neutral-700 text-neutral-100'
+                    : 'text-neutral-400 hover:bg-neutral-700/50'
+                }`}
+              >
+                Voting
+              </Link>
             </div>
           </div>
 
           {/* Content */}
           {activeTab === 'current' ? (
             <div className="space-y-6">
-              
-
               <BookCard book={currentBook} showPageTracker={true} />
             </div>
-          ) : (
+          ) : activeTab === 'history' ? (
             <div className="space-y-6">
               <div className="space-y-4">
                 {bookHistory.map((book) => (
@@ -74,7 +84,7 @@ export default function Home({ currentBook, bookHistory }: HomeProps) {
                 ))}
               </div>
             </div>
-          )}
+          ) : null}
 
           {/* Additional Context */}
           <div className="text-center max-w-xl mx-auto">
