@@ -1,13 +1,24 @@
 [
-    {
-        "id": "foundation-asimov",
-        "title": "Foundation",
-        "author": "Isaac Asimov",
-        "coverImageUrl": "/images/Foundation.jpg",
-        "startDate": "2024-03-05",
-        "status": "CURRENT",
-        "synopsis": "A groundbreaking science fiction novel about the fall of a galactic empire and the attempt to preserve human knowledge.",
-        "notes": "First book in the legendary Foundation series",
-        "totalPages": "296"
-      }
+  {
+      "id": "foundation-asimov",
+      "title": "Foundation",
+      "author": "Isaac Asimov",
+      "coverImageUrl": "/images/Foundation.jpg",
+      "startDate": "2024-03-05",
+      "status": "CURRENT",
+      "synopsis": "A groundbreaking science fiction novel about the fall of a galactic empire and the attempt to preserve human knowledge.",
+      "notes": "First book in the legendary Foundation series",
+      "totalPages": "296"
+  },
+  {
+      "id": "lord-of-the-flies-golding",
+      "title": "Lord of the Flies",
+      "author": "William Golding",
+      "coverImageUrl": "/images/LordOfTheFlies.jpg",
+      "startDate": "2024-03-22",
+      "status": "NEW",
+      "synopsis": "A group of British boys stranded on an uninhabited island attempt to govern themselves, with disastrous results as they descend into savagery.",
+      "notes": "Nobel Prize-winning allegorical novel exploring human nature and civilization",
+      "totalPages": "224"
+  }
 ]
