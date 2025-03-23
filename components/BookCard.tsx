@@ -63,6 +63,7 @@ export default function BookCard({ book, showPageTracker = false }: {
                 sizes="(max-width: 768px) 100vw, 33vw" // Responsive sizes
                 className="object-contain md:object-cover rounded-md shadow-md opacity-95 transition duration-300 hover:opacity-100"
                 style={{ objectFit: 'contain' }} // Ensure consistent behavior
+                priority 
               />
             )}
           </div>

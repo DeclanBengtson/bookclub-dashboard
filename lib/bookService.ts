@@ -1,7 +1,7 @@
 // lib/bookService.ts
 import fs from 'fs/promises';
 import path from 'path';
-import { Book, BookSuggestion } from '../types/Book';
+import { Book } from '../types/Book';
 
 const BOOKS_PATH = path.join(process.cwd(), 'data', 'books.json');
 const CURRENT_BOOK_PATH = path.join(process.cwd(), 'data', 'currentBook.json');
