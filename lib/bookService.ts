@@ -5,7 +5,6 @@ import { Book, BookSuggestion } from '../types/Book';
 
 const BOOKS_PATH = path.join(process.cwd(), 'data', 'books.json');
 const CURRENT_BOOK_PATH = path.join(process.cwd(), 'data', 'currentBook.json');
-const VOTING_PATH = path.join(process.cwd(), 'data', 'voting.json');
 
 export async function getCurrentBook(): Promise<Book> {
   const data = await fs.readFile(CURRENT_BOOK_PATH, 'utf8');
@@ -27,17 +26,3 @@ export async function addBookToHistory(book: Book): Promise<void> {
   await fs.writeFile(BOOKS_PATH, JSON.stringify(books, null, 2));
 }
 
-// New voting functions
-export async function getVotingSuggestions(): Promise<BookSuggestion[]> {
-  try {
-    const data = await fs.readFile(VOTING_PATH, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    console.error('Error reading voting suggestions:', error); // Log the error
-    return [];
-  }
-}
-
-export async function saveVotingSuggestions(suggestions: BookSuggestion[]): Promise<void> {
-  await fs.writeFile(VOTING_PATH, JSON.stringify(suggestions, null, 2));
-}

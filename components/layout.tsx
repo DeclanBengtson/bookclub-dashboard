@@ -5,7 +5,7 @@ import Link from 'next/link';
 interface LayoutProps {
   children: ReactNode;
   title: string;
-  activeTab: 'current' | 'history' | 'voting';
+  activeTab: 'current' | 'history';
 }
 
 export default function Layout({ children, title, activeTab }: LayoutProps) {
@@ -40,11 +40,11 @@ export default function Layout({ children, title, activeTab }: LayoutProps) {
 
             {/* Tabs - Centered with equal widths */}
             <div className="flex justify-center">
-              <div className="bg-white rounded-full p-1 flex shadow-sm border border-stone-200">
-                <div className="grid grid-cols-3 w-full">
+              <div className="bg-white rounded-full p-1 flex shadow-sm border border-stone-200 w-auto">
+                <div className="grid grid-cols-2 w-full">
                   <Link
                     href="/"
-                    className={`px-4 py-2 rounded-full text-sm transition-colors duration-300 text-center whitespace-nowrap w-32 flex items-center justify-center ${
+                    className={`px-6 py-2 rounded-full text-sm transition-colors duration-300 text-center whitespace-nowrap flex items-center justify-center ${
                       activeTab === 'current' 
                         ? 'bg-amber-100 text-amber-900' 
                         : 'text-stone-600 hover:bg-amber-50'
@@ -54,23 +54,13 @@ export default function Layout({ children, title, activeTab }: LayoutProps) {
                   </Link>
                   <Link
                     href="/history"
-                    className={`px-4 py-2 rounded-full text-sm transition-colors duration-300 text-center whitespace-nowrap w-32 flex items-center justify-center ${
+                    className={`px-6 py-2 rounded-full text-sm transition-colors duration-300 text-center whitespace-nowrap flex items-center justify-center ${
                       activeTab === 'history' 
                         ? 'bg-amber-100 text-amber-900' 
                         : 'text-stone-600 hover:bg-amber-50'
                     }`}
                   >
                     Book History
-                  </Link>
-                  <Link
-                    href="/voting"
-                    className={`px-4 py-2 rounded-full text-sm transition-colors duration-300 text-center whitespace-nowrap w-32 flex items-center justify-center ${
-                      activeTab === 'voting' 
-                        ? 'bg-amber-100 text-amber-900' 
-                        : 'text-stone-600 hover:bg-amber-50'
-                    }`}
-                  >
-                    Voting
                   </Link>
                 </div>
               </div>
